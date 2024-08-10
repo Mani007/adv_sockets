@@ -2,7 +2,7 @@ import express from'express';
 import dotenv from 'dotenv';
 dotenv.config()
 import cors from 'cors';
-
+// We usually emit from the frontend and listen at the backend
 import {Server} from 'socket.io';
 import { createServer} from 'http'
 
@@ -26,7 +26,13 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     console.log('A user connected')
     console.log(`ID is ${socket.id}`)
-    socket.broadcast.emit('welcome',`Welcome you are connected with id ${socket.id} `)
+    socket.emit('welcome',`Welcome you are connected with id ${socket.id} `)
+    socket.broadcast.emit('joinedtheserver',`${socket.id} joined the server `)
+    
+    socket.on('disconnect', () => {
+      console.log(`${socket.id} user disconnected`)
+      //socket.broadcast.emit('lefttheserver',`${socket.id} left the server `)
+    })
 })
 
 // app.listen(port, () => {

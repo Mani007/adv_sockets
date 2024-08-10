@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {io} from 'socket.io-client'
 import './App.css'
-
+// We usually emit from the frontend and listen at the backend
 function App() {
   //const [count, setCount] = useState(0)
   const socket = io('http://localhost:7000')
@@ -13,13 +13,14 @@ function App() {
     socket.on('welcome', (msg) => {
         console.log(msg)
     })
-    // socket.on('disconnect', () => {
-    //   console.log('Disconnected from the server')
-    // })
+    socket.on('joinedtheserver',(msg) =>{
+        console.log(msg)
+    })
+   
 
-    // return () => {
-    //   socket.disconnect()
-    // }
+    return () => {
+      socket.disconnect()
+    }
   },[])
 
   return (
