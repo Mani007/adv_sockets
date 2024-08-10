@@ -10,7 +10,9 @@ function App() {
       console.log('Connected to the server')
       console.log(`The socket id is ${socket.id}`)
     })
-
+    socket.on('welcome', (msg) => {
+        console.log(msg)
+    })
     // socket.on('disconnect', () => {
     //   console.log('Disconnected from the server')
     // })

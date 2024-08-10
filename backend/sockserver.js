@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     console.log('A user connected')
     console.log(`ID is ${socket.id}`)
+    socket.emit('welcome',"Welcome you are connected to the best server")
 })
 
 // app.listen(port, () => {
