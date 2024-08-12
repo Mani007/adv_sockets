@@ -39,13 +39,13 @@ function App() {
     }
   },[])
  
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     socket.emit('message', msg.message)
     setMsg({ message: '' })
 
   }
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMsg({ message: e.target.value })
     //console.log(msg);  // this is working fine
     
