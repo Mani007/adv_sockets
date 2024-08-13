@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import {io} from 'socket.io-client'
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { Button, Container, TextField, Typography, Box } from '@mui/material';
 import './App.css'
 // We usually emit from the frontend and listen at the backend
 interface user {
@@ -13,9 +13,9 @@ interface user {
  }
 function App() {
   //const [count, setCount] = useState(0)
-  const [user, setUser] = useState<user>({ } as user)
+  const [user, setUser] = useState<user>({} as user)
   const [msg, setMsg] = useState<msg>({ message: '' })
-  const socket = io('http://localhost:7000')
+  const socket = io(['http://localhost:7000','http://192.168.1.229:5173'])
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to the server')
@@ -56,10 +56,29 @@ function App() {
     <Container maxWidth='sm'>
       <form onSubmit={handleSubmit}>
       {/* <h1>Hello world tsx</h1> */}
+      <h6>Connected user ids are </h6>
+      <p>{user.id}</p>
+      {/* {user.map((user) =>{
+        return <p key={user.id}>{user.id}</p>
+      })} */}
       <Typography variant='h3' >Type your text below</Typography>
       <p>The message you are sending to server is ... {msg.message}</p>
-      <TextField name="sendmessage" value={msg.message} onChange={handleChange} id="sendmessage" placeholder="Type here..." variant='outlined'></TextField>
-      <Button type='submit'>SEND</Button>
+      <Box 
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent:'space-between',
+        alignItems: 'center',
+        margin: '10px 0',
+        padding: '10px',
+        
+        boxSizing: 'border-box'
+      }}>
+      <TextField name="sendmessage" value={msg.message} onChange={handleChange} id="sendmessage" placeholder="Type message here..." variant='outlined'></TextField> <br />
+      <TextField name="sendmessage" value={msg.message} onChange={handleChange} id="sendmessage" placeholder="Room ID" variant='outlined'></TextField> <br />
+      <TextField name="sendmessage" value={msg.message} onChange={handleChange} id="sendmessage" placeholder="Group ID" variant='outlined'></TextField> <br />
+      <Button type='submit'variant="contained">SEND</Button>
+      </Box>
       </form>
     </Container>
      

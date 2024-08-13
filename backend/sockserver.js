@@ -11,9 +11,9 @@ app.use(cors())
 const server = new createServer(app)
 const io = new Server(server,{
     cors: {
-      origin: 'http://localhost:5173', // make sure this url is correct
+      origin: ['http://localhost:5173', 'http://192.168.1.229:5173'], // make sure this url is correct
       methods: ['GET', 'POST'],
-      credentials: true,
+      //credentials: true,
     }
   });
 
