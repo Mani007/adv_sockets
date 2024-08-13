@@ -1,6 +1,7 @@
-import express from'express';
+import express, { json } from'express';
 import dotenv from 'dotenv';
 dotenv.config()
+import bodyParser from "body-parser";
 import cors from 'cors';
 // We usually emit from the frontend and listen at the backend
 import {Server} from 'socket.io';
@@ -8,6 +9,9 @@ import { createServer} from 'http'
 
 const app = express()
 app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(express-json())
 const server = new createServer(app)
 const io = new Server(server,{
     cors: {
@@ -19,8 +23,8 @@ const io = new Server(server,{
 
 const port = process.env.PORT
 
-app.get('/', (req, res) => {
-  res.send('Hello World!!!!!!')
+app.get('/test', (req, res) => {
+  res.sendJSON('Hello World!!!!!!')
 })
 
 io.on('connection', (socket) => {

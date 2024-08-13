@@ -12,37 +12,51 @@ interface user {
     message: string;
  }
 function App() {
-  //const [count, setCount] = useState(0)
+  const [count, setCount] = useState<string>('')
   const [user, setUser] = useState<user>({} as user)
   const [msg, setMsg] = useState<msg>({ message: '' })
-  const socket = io(['http://localhost:7000','http://192.168.1.229:5173'])
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to the server')
-      //console.log(`The socket id is ${socket.id}`)
-      const newUser = { id: socket.id, msg: `${socket.id} joined the sever`, dismsg: ''}
-      setUser(newUser)
-    })
-    // socket.on('welcome', (msg) => {
-    //     console.log(msg)
-    // })
-    // socket.on('joinedtheserver',(msg) =>{
-    //     //console.log(msg)
-    //     const newUser = { id: socket.id, msg: msg, dismsg: 'welcome'}
-    //     setUser(newUser)
-    // })
+  //const socket = io('http://localhost:7000')
+  // useEffect(() => {
+  //   socket.on('connect', () => {
+  //     console.log('Connected to the server')
+  //     //console.log(`The socket id is ${socket.id}`)
+  //     const newUser = { id: socket.id, msg: `${socket.id} joined the sever`, dismsg: ''}
+  //     setUser(newUser)
+  //   })
+  //   // socket.on('welcome', (msg) => {
+  //   //     console.log(msg)
+  //   // })
+  //   // socket.on('joinedtheserver',(msg) =>{
+  //   //     //console.log(msg)
+  //   //     const newUser = { id: socket.id, msg: msg, dismsg: 'welcome'}
+  //   //     setUser(newUser)
+  //   // })
    
 
-    return () => {
-     // setUser({ id: socket.id, msg:`${socket.id} disconnected from the server`, dismsg: 'bye'})
-      socket.disconnect()
-    }
-  },[])
+  //   return () => {
+  //    // setUser({ id: socket.id, msg:`${socket.id} disconnected from the server`, dismsg: 'bye'})
+  //     socket.disconnect()
+  //   }
+  // },[])
  
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  // const handleSubmit = (e: React.SyntheticEvent) => {
+  //   e.preventDefault();
+  //   socket.emit('message', msg.message)
+  //   setMsg({ message: '' })
+
+  // }
+  useEffect( () => {
+      fetch('http://localhost:7000/test').then((response) =>{
+        return response.json()
+      }).then((data) => {
+        console.log(data);
+        setCount(data);
+      })
+  },[])
+
+  const handleSubmitconsole = (e: React.SyntheticEvent) => {   // This is working fine in console
     e.preventDefault();
-    socket.emit('message', msg.message)
-    setMsg({ message: '' })
+    console.log(e)
 
   }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +68,9 @@ function App() {
   return (
     <>
     <Container maxWidth='sm'>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitconsole}>
       {/* <h1>Hello world tsx</h1> */}
+      <h1>{count}</h1>
       <h6>Connected user ids are </h6>
       <p>{user.id}</p>
       {/* {user.map((user) =>{
